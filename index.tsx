@@ -5,7 +5,9 @@ import App from './App';
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
-  console.error("FATAL: Root element not found in DOM.");
+  const msg = "FATAL: Root element not found in DOM.";
+  console.error(msg);
+  document.body.innerHTML += `<div style="color:red; padding:20px;">${msg}</div>`;
 } else {
   try {
     const root = ReactDOM.createRoot(rootElement);
@@ -21,11 +23,12 @@ if (!rootElement) {
         </Suspense>
       </React.StrictMode>
     );
-  } catch (err) {
+  } catch (err: any) {
     console.error("React Render Error:", err);
-    rootElement.innerHTML = `<div style="padding: 20px; color: red; font-family: sans-serif;">
-      <h2>Application Error</h2>
-      <p>Please check the browser console for details.</p>
+    rootElement.innerHTML = `<div style="padding: 40px; color: #f87171; font-family: sans-serif; background: #0f172a; height: 100vh;">
+      <h2 style="font-weight: 900; letter-spacing: -0.05em; color: white;">APPLICATION FAILED TO INITIALIZE</h2>
+      <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">${err?.message || 'Unknown render error'}</p>
+      <pre style="margin-top: 20px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; font-size: 11px; color: #94a3b8; overflow: auto;">${err?.stack || ''}</pre>
     </div>`;
   }
 }
